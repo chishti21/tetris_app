@@ -27,7 +27,7 @@ jobs:
 
       # 4. Scan Docker image with Trivy
       - name: Scan Docker image for vulnerabilities
-        uses: aquasecurity/trivy-action@v2
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: burhanchishti/tetris-app:latest
           severity: CRITICAL,HIGH
