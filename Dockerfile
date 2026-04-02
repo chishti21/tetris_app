@@ -1,18 +1,11 @@
-# Start from official Nginx Alpine image
-FROM nginx:alpine
+# Use Debian-based Nginx for better compatibility
+FROM nginx:stable
 
-# Update Alpine packages and remove cache to reduce vulnerabilities
-RUN apk update && \
-    apk upgrade --no-cache
-
-# Disable AIO to prevent io_setup() errors on Oracle VM
-RUN sed -i 's|use epoll;|use epoll; aio off;|' /etc/nginx/nginx.conf
-
-# Copy your Tetris HTML
+# Copy your Tetris HTML file into the default Nginx web root
 COPY tetris.html /usr/share/nginx/html/index.html
 
-# Expose port
+# Expose port 80 for HTTP traffic
 EXPOSE 80
 
-# Run Nginx in foreground
+# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
