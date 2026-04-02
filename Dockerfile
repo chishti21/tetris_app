@@ -1,14 +1,12 @@
-# Use Debian-based Nginx for stability
-FROM nginx:stable
+# Use lightweight Python Alpine image
+FROM python:3.12-alpine
 
-# Disable AIO and thread pools to prevent io_setup() errors
-RUN sed -i 's|use epoll;|use epoll; aio off;|' /etc/nginx/nginx.conf
-
-# Copy your Tetris HTML
-COPY tetris.html /usr/share/nginx/html/index.html
+# Copy your Tetris HTML file
+COPY tetris.html /app/index.html
+WORKDIR /app
 
 # Expose port 80
 EXPOSE 80
 
-# Start Nginx in the foreground
-CMD ["nginx", "-g", "daemon off;"]
+# Run a simple HTTP server
+CMD ["python3", "-m", "http.server", "80"]
