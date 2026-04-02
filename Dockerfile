@@ -1,11 +1,14 @@
-# Use Debian-based Nginx for better compatibility
+# Use Debian-based Nginx for stability
 FROM nginx:stable
 
-# Copy your Tetris HTML file into the default Nginx web root
+# Disable AIO and thread pools to prevent io_setup() errors
+RUN sed -i 's|use epoll;|use epoll; aio off;|' /etc/nginx/nginx.conf
+
+# Copy your Tetris HTML
 COPY tetris.html /usr/share/nginx/html/index.html
 
-# Expose port 80 for HTTP traffic
+# Expose port 80
 EXPOSE 80
 
-# Run Nginx in the foreground
+# Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
