@@ -5,6 +5,9 @@ FROM nginx:alpine
 RUN apk update && \
     apk upgrade --no-cache
 
+# Disable AIO to prevent io_setup() errors on Oracle VM
+RUN sed -i 's|use epoll;|use epoll; aio off;|' /etc/nginx/nginx.conf
+
 # Copy your Tetris HTML
 COPY tetris.html /usr/share/nginx/html/index.html
 
